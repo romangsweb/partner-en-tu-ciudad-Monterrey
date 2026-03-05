@@ -1,21 +1,32 @@
 'use client'
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import './Header.css';
 
 export default function Header() {
     const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
+            if (window.scrollY > 50) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
         };
+
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Force solid background if not on homepage
+    const isSolid = scrolled || pathname !== '/';
+
     return (
-        <header className={`header ${scrolled ? 'scrolled glass-panel' : ''}`}>
+        <header className={`header ${isSolid ? 'scrolled glass-panel' : ''}`}>
             <div className="container header-content">
                 <Link href="/" className="logo">
                     <img src="https://www.xamai.com/wp-content/uploads/2023/09/Logo-Xamai.png" alt="Xamai Logo" style={{ height: '40px', objectFit: 'contain' }} />
