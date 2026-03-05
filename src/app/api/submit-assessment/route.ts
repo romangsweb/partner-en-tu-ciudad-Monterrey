@@ -69,78 +69,77 @@ async function generatePDF(lead: any, score: number, analysis: any) {
     const orange = rgb(0.96, 0.49, 0.14);   // Xamai secondary-like
     const gray = rgb(0.3, 0.3, 0.3);
     const lightBg = rgb(0.96, 0.97, 0.98);
+    const accentLight = rgb(0.9, 0.94, 0.98);
 
     // --- PAGE 1: Portada y Resumen ---
     const page1 = pdfDoc.addPage([600, 800]);
     const { width, height } = page1.getSize();
 
-    // Header
+    // Header Banner
     page1.drawRectangle({ x: 0, y: height - 120, width, height: 120, color: darkBlue });
-    page1.drawText('Reporte de Diagnóstico Estratégico', { x: 40, y: height - 60, size: 22, font: fontBold, color: rgb(1, 1, 1) });
-    page1.drawText('Business Transformation Orbit', { x: 40, y: height - 85, size: 14, font, color: orange });
+    page1.drawText('DIAGNÓSTICO ESTRATÉGICO', { x: 40, y: height - 50, size: 28, font: fontBold, color: rgb(1, 1, 1) });
+    page1.drawText('Business Transformation Orbit', { x: 40, y: height - 80, size: 16, font, color: orange });
 
-    // Intro
-    page1.drawText(`Preparado para: ${lead.name}`, { x: 40, y: height - 160, size: 12, font: fontBold, color: darkBlue });
-    page1.drawText(`Empresa: ${lead.company}`, { x: 40, y: height - 180, size: 12, font, color: gray });
+    // Intro Section
+    page1.drawText(`Preparado en exclusiva para:`, { x: 40, y: height - 160, size: 12, font, color: gray });
+    page1.drawText(`${lead.name} | ${lead.company}`, { x: 40, y: height - 180, size: 16, font: fontBold, color: darkBlue });
 
-    const introText = "A través de nuestro modelo de evaluación continua, hemos analizado la madurez actual de su ecosistema tecnológico SAP. El objetivo central no es comercializar software, sino identificar cómo escalar el valor estratégico de TI dentro de su organización, migrando de un 'Project Mindset' tradicional hacia una evolución continua ('Continuous Value').";
-    const introLines = await wrapText(introText, font, 11, 520);
-    let yPos = height - 220;
-    introLines.forEach(line => {
-        page1.drawText(line, { x: 40, y: yPos, size: 11, font, color: gray });
-        yPos -= 16;
-    });
+    // Visual Score Chart
+    let yPos = height - 240;
+    page1.drawRectangle({ x: 40, y: yPos - 120, width: 520, height: 120, color: lightBg, borderColor: darkBlue, borderWidth: 1 });
+    page1.drawText('MADUREZ TECNOLÓGICA (ORBIT SCORE)', { x: 60, y: yPos - 30, size: 12, font: fontBold, color: darkBlue });
 
-    // Score Box
-    yPos -= 20;
-    page1.drawRectangle({ x: 40, y: yPos - 80, width: 520, height: 80, color: lightBg, borderColor: darkBlue, borderWidth: 1 });
-    page1.drawText('PUNTUACIÓN DE MADUREZ', { x: 60, y: yPos - 30, size: 10, font: fontBold, color: gray });
-    page1.drawText(`${score}/18`, { x: 60, y: yPos - 60, size: 28, font: fontBold, color: orange });
+    // The progress bar graphic
+    page1.drawRectangle({ x: 60, y: yPos - 70, width: 400, height: 20, color: rgb(0.85, 0.85, 0.85), borderColor: gray, borderWidth: 0.5 });
+    const scoreWidth = (score / 18) * 400;
+    page1.drawRectangle({ x: 60, y: yPos - 70, width: scoreWidth, height: 20, color: orange });
 
-    page1.drawText('Su posición en el modelo Orbit:', { x: 180, y: yPos - 30, size: 10, font: fontBold, color: gray });
-    page1.drawText(analysis.level.toUpperCase(), { x: 180, y: yPos - 55, size: 16, font: fontBold, color: darkBlue });
-    page1.drawText(analysis.orbita, { x: 180, y: yPos - 70, size: 12, font, color: darkBlue });
+    page1.drawText(`${score} / 18 pts`, { x: 470, y: yPos - 65, size: 16, font: fontBold, color: darkBlue });
 
-    // Analysis Desc
-    yPos -= 120;
-    page1.drawText('Diagnóstico de Etapa', { x: 40, y: yPos, size: 16, font: fontBold, color: darkBlue });
-    yPos -= 25;
-    const descLines = await wrapText(analysis.desc, font, 11, 520);
+    page1.drawText('Posición actual:', { x: 60, y: yPos - 100, size: 12, font, color: gray });
+    page1.drawText(analysis.level.toUpperCase(), { x: 150, y: yPos - 100, size: 14, font: fontBold, color: orange });
+
+    // Analysis Box
+    yPos -= 160;
+    page1.drawRectangle({ x: 40, y: yPos - 90, width: 520, height: 80, color: accentLight });
+    page1.drawText(analysis.orbita, { x: 60, y: yPos - 30, size: 14, font: fontBold, color: darkBlue });
+    const descLines = await wrapText(analysis.desc, font, 11, 480);
+    let descY = yPos - 50;
     descLines.forEach(line => {
-        page1.drawText(line, { x: 40, y: yPos, size: 11, font, color: gray });
-        yPos -= 16;
+        page1.drawText(line, { x: 60, y: descY, size: 11, font, color: darkBlue });
+        descY -= 14;
     });
 
-    // Recomendaciones
-    yPos -= 30;
-    page1.drawText('Próximos Pasos Recomendados', { x: 40, y: yPos, size: 16, font: fontBold, color: darkBlue });
+    // Actionable Insights
+    yPos -= 130;
+    page1.drawText('PLAN DE ACCIÓN RECOMENDADO', { x: 40, y: yPos, size: 14, font: fontBold, color: darkBlue });
+    page1.drawLine({ start: { x: 40, y: yPos - 5 }, end: { x: 560, y: yPos - 5 }, thickness: 2, color: orange });
     yPos -= 30;
 
     for (let i = 0; i < analysis.recs.length; i++) {
         const rec = analysis.recs[i];
-        const recLines = await wrapText(rec, font, 12, 480); // Adjust max width for bullet point
-        page1.drawText(`${i + 1}.`, { x: 40, y: yPos, size: 12, font: fontBold, color: orange });
-        let currentRecY = yPos;
-        recLines.forEach((line, lineIndex) => {
-            page1.drawText(line, { x: 60, y: currentRecY, size: 12, font, color: gray });
-            currentRecY -= 16; // Line height for wrapped text
+        const recLines = await wrapText(rec, font, 12, 480);
+        page1.drawRectangle({ x: 40, y: yPos - 12 - ((recLines.length - 1) * 14), width: 15, height: 15, color: orange });
+        page1.drawText(`${i + 1}`, { x: 44, y: yPos - 10 - ((recLines.length - 1) * 14), size: 12, font: fontBold, color: rgb(1, 1, 1) });
+        let currentRecY = yPos - 10;
+        recLines.forEach((line) => {
+            page1.drawText(line, { x: 65, y: currentRecY, size: 12, font, color: gray });
+            currentRecY -= 16;
         });
-        yPos = currentRecY - 9; // Space between recommendations
+        yPos = currentRecY - 15;
     }
 
-    // --- PAGE 2: Metodología ---
+    // --- PAGE 2: Metodología y CTA ---
     const page2 = pdfDoc.addPage([600, 800]);
 
-    page2.drawText('El Modelo: Business Transformation Orbit', { x: 40, y: height - 60, size: 18, font: fontBold, color: darkBlue });
+    page2.drawRectangle({ x: 0, y: height - 80, width, height: 80, color: darkBlue });
+    page2.drawText('HACIA LA EVOLUCIÓN CONTINUA', { x: 40, y: height - 50, size: 18, font: fontBold, color: rgb(1, 1, 1) });
 
-    let p2y = height - 100;
+    let p2y = height - 120;
     const frameworkDesc = [
-        "La mayoría de las empresas del midmarket mexicano utilizan menos del 40% de las capacidades de su ERP.",
-        "Bajo una relación transaccional, TI se percibe como un centro de costos. Nuestro modelo propone el crecimiento vertical dentro de cuentas activas:",
+        "En 2027 termina el soporte mainstream para SAP ECC. Una gran parte del midmarket en México sabe esto, pero pocos tienen claro el costo estructurado y la hoja de ruta real de adaptación.",
         "",
-        "Órbita 1: Core Transformation. La base estable y extensible. (S/4HANA, RISE/GROW, Clean Core).",
-        "Órbita 2: Evolución Funcional. Automatización operativa con ROI claro. (E-Suite, Portales, Signavio).",
-        "Órbita 3: Xtended Care Estratégico. Advisory continuo, gobierno trimestral, y evolución de negocio."
+        "Cambiar a S/4HANA (Órbita 1) no es suficiente. El valor real está en migrar de un 'Project Mindset' tradicional a un modelo de Advisory Continuo (Órbita 3), impulsado por la digitalización de la cadena B2B (E-Suite) y plataformas de inteligencia (BTP, Signavio).",
     ];
 
     for (const paragraph of frameworkDesc) {
@@ -148,24 +147,35 @@ async function generatePDF(lead: any, score: number, analysis: any) {
             p2y -= 10;
             continue;
         }
-        const lines = await wrapText(paragraph, font, 11, 520);
+        const lines = await wrapText(paragraph, font, 12, 520);
         for (const line of lines) {
-            const isBold = line.includes('Órbita');
-            page2.drawText(line, { x: 40, y: p2y, size: 11, font: isBold ? fontBold : font, color: gray });
-            p2y -= 16;
+            page2.drawText(line, { x: 40, y: p2y, size: 12, font, color: gray });
+            p2y -= 18;
         }
         p2y -= 10;
     }
 
-    page2.drawRectangle({ x: 40, y: p2y - 100, width: 520, height: 80, color: darkBlue });
-    page2.drawText('Un Momento Crítico', { x: 60, y: p2y - 45, size: 14, font: fontBold, color: rgb(1, 1, 1) });
-    page2.drawText('En 2027 terminará el soporte mainstream de SAP ECC. El reloj ya está corriendo.', { x: 60, y: p2y - 65, size: 11, font, color: rgb(0.8, 0.8, 0.8) });
-    page2.drawText('Es el momento ideal para evolucionar.', { x: 60, y: p2y - 80, size: 11, font, color: rgb(0.8, 0.8, 0.8) });
+    // Massive CTA SECTION
+    p2y -= 40;
+    page2.drawRectangle({ x: 40, y: p2y - 180, width: 520, height: 160, color: orange, borderColor: darkBlue, borderWidth: 2 });
+    page2.drawText('¿Qué sigue ahora?', { x: 230, y: p2y - 40, size: 18, font: fontBold, color: rgb(1, 1, 1) });
 
-    // Footer en todas las páginas
+    const ctaDesc = "Comprendemos que cada ecosistema es único. Agende una sesión estratégica de 45 minutos (sin costo) con nuestro equipo de Advisory en Monterrey. En esta llamada cruzaremos su puntuación con su arquitectura actual para trazar una hoja de ruta 100% personalizada.";
+    const ctaLines = await wrapText(ctaDesc, font, 12, 460);
+    let ctaYDesc = p2y - 80;
+    for (const line of ctaLines) {
+        page2.drawText(line, { x: 70, y: ctaYDesc, size: 12, font, color: rgb(1, 1, 1) });
+        ctaYDesc -= 18;
+    }
+
+    // Button Graphic
+    page2.drawRectangle({ x: 200, y: p2y - 150, width: 200, height: 40, color: darkBlue, borderColor: rgb(1, 1, 1), borderWidth: 2 });
+    page2.drawText('HABLEMOS DE NEGOCIOS', { x: 220, y: p2y - 135, size: 12, font: fontBold, color: rgb(1, 1, 1) });
+
+    // Footer
     [page1, page2].forEach(page => {
-        page.drawText('Xamai - SAP Gold Partner Monterrey | Modelo Xtended Care', { x: 40, y: 30, size: 9, font, color: rgb(0.6, 0.6, 0.6) });
-        page.drawText('CONFIDENCIAL', { x: width - 100, y: 30, size: 9, font, color: rgb(0.6, 0.6, 0.6) });
+        page.drawText('Xamai - SAP Gold Partner Monterrey | Modelo Xtended Care', { x: 40, y: 30, size: 9, font: fontBold, color: gray });
+        page.drawText('CONFIDENCIAL', { x: width - 100, y: 30, size: 9, font: fontBold, color: gray });
     });
 
     const pdfBytes = await pdfDoc.save();
