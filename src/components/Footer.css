@@ -1,0 +1,32 @@
+.footer {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--spacing-xl) 0 2rem;
+    margin-top: auto;
+}
+
+.footer-title {
+    font-size: 2.5rem;
+    color: var(--color-white);
+    margin-bottom: 1rem;
+}
+
+.footer-subtitle {
+    font-size: 1.25rem;
+    color: var(--color-surface-200);
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer-cta {
+    margin-bottom: var(--spacing-xl);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+}
