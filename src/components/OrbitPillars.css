@@ -38,25 +38,78 @@
 }
 
 .pillar-card {
-    padding: 2rem;
-    transition: transform var(--transition-normal);
-    background: var(--color-surface-50);
-    border: 1px solid var(--color-surface-200);
+    padding: 2.5rem 2rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.pillar-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 16px;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
 }
 
 .pillar-card:hover {
-    transform: translateY(-5px);
-    background: var(--color-white);
-    border-color: var(--color-secondary);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 82, 204, 0.15);
+    background: rgba(255, 255, 255, 0.95);
 }
 
-.pillar-num {
+.pillar-card:hover::before {
+    opacity: 1;
+}
+
+.pillar-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: rgba(0, 82, 204, 0.08); /* Faint primary */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+    transition: all 0.4s ease;
+}
+
+.pillar-card:hover .pillar-icon-wrapper {
+    background: var(--gradient-primary);
+    color: white;
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 10px 20px rgba(0, 82, 204, 0.3);
+}
+
+.pillar-bg-num {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
     font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 800;
-    display: block;
-    margin-bottom: 1rem;
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(0, 82, 204, 0.04);
+    line-height: 1;
+    z-index: -2;
+    transition: color 0.4s ease;
+}
+
+.pillar-card:hover .pillar-bg-num {
+    color: rgba(249, 115, 22, 0.08); /* Faint secondary on hover */
 }
 
 .pillar-title {

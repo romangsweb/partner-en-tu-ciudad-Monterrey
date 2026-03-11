@@ -63,6 +63,13 @@ export default function TransformationCycle() {
                             <blockquote className="cycle-quote">{steps[activeStep].quote}</blockquote>
                             <p className="cycle-desc">{steps[activeStep].description}</p>
                         </div>
+                        <div className="cycle-visual-wrapper">
+                            <div className={`cycle-abstract-graphic graphic-${steps[activeStep].id}`}>
+                                <div className="g-element g-1"></div>
+                                <div className="g-element g-2"></div>
+                                <div className="g-element g-3"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

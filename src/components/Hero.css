@@ -15,9 +15,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 80% 20%, rgba(0, 82, 204, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 20% 80%, rgba(255, 90, 0, 0.05) 0%, transparent 40%);
     z-index: 0;
+    overflow: hidden;
 }
 
 .hero-background::after {
@@ -33,12 +32,82 @@
     opacity: 0.3;
 }
 
+.blob {
+    position: absolute;
+    filter: blur(80px);
+    opacity: 0.5;
+    border-radius: 50%;
+    animation: floatBlob 20s infinite alternate ease-in-out;
+}
+
+.blob-1 {
+    top: 10%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: rgba(0, 82, 204, 0.15); /* Primary */
+    animation-delay: 0s;
+}
+
+.blob-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: rgba(255, 90, 0, 0.1); /* Secondary */
+    animation-delay: -5s;
+}
+
+.blob-3 {
+    top: 40%;
+    right: 30%;
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 191, 255, 0.1); /* Accent */
+    animation-delay: -10s;
+}
+
+@keyframes floatBlob {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 50px) scale(1.1); }
+}
+
 .hero-content {
     position: relative;
     z-index: 1;
-    text-align: center;
-    max-width: 900px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 4rem;
+    }
+    
+    .hero-text-block {
+        text-align: left;
+    }
+    
+    .hero-ctas {
+        justify-content: flex-start;
+    }
+    
+    .hero-subtitle {
+        margin-left: 0;
+    }
+}
+
+.hero-text-block {
+    text-align: center;
 }
 
 .badge {
@@ -98,4 +167,95 @@
 .btn-large {
     padding: 1rem 2rem;
     font-size: 1.125rem;
+}
+
+/* --- Hero Orbit Visual --- */
+.hero-visual-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 400px;
+}
+
+.hero-orbit-container {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 992px) {
+    .hero-orbit-container {
+        width: 450px;
+        height: 450px;
+    }
+}
+
+.hero-orbit-container > div[class*='hero-orbit-'] {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 82, 204, 0.2);
+}
+
+.hero-orbit-outer { 
+    width: 100%; height: 100%; 
+    border-style: dashed; 
+    border-width: 2px;
+    border-color: rgba(255, 90, 0, 0.3);
+    animation: spinSlow 40s linear infinite; 
+    box-shadow: inset 0 0 20px rgba(255, 90, 0, 0.05);
+}
+
+.hero-orbit-middle { 
+    width: 70%; height: 70%; 
+    border-style: dotted; 
+    border-width: 2px;
+    border-color: rgba(0, 82, 204, 0.4);
+    animation: spinReverseSlow 30s linear infinite; 
+    box-shadow: 0 0 30px rgba(0, 82, 204, 0.1);
+}
+
+.hero-orbit-inner { 
+    width: 40%; height: 40%; 
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(0, 191, 255, 0.5);
+    animation: pulseGlow 4s ease-in-out infinite; 
+}
+
+.hero-orbit-center {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(0, 82, 204, 0.6);
+    z-index: 10;
+    border: none !important;
+}
+
+@media (min-width: 992px) {
+    .hero-orbit-center { width: 120px; height: 120px; }
+}
+
+.hero-orbit-text {
+    color: white;
+    font-weight: 800;
+    font-size: 1.25rem;
+    text-align: center;
+    line-height: 1.2;
+    letter-spacing: 1px;
+}
+
+@keyframes spinSlow { 100% { transform: rotate(360deg); } }
+@keyframes spinReverseSlow { 100% { transform: rotate(-360deg); } }
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(0, 191, 255, 0.2); transform: scale(1); }
+    50% { box-shadow: 0 0 40px rgba(0, 191, 255, 0.6); transform: scale(1.05); }
 }
