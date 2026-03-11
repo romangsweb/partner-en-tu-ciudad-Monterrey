@@ -5,56 +5,38 @@ import './Questionnaire.css';
 const businessQuestions = [
     {
         id: "b1",
-        question: "¿Cuál es el principal desafío operativo y financiero de la Dirección hoy con su ERP actual?",
+        question: "¿Cuál es el principal desafío operativo y financiero con su ERP actual?",
         options: [
-            { text: "Cierres financieros lentos, reportes manuales en Excel y poca visibilidad en tiempo real para decisiones.", score: 1 },
-            { text: "Tenemos datos unificados, pero nos cuesta escalar nuevos modelos de negocio o fusiones rápidamente.", score: 2 },
-            { text: "Operamos con alta agilidad. El ERP soporta procesos end-to-end con analítica preventiva y en tiempo real.", score: 3 }
+            { text: "Cierres financieros lentos, reportes manuales en Excel y poca visibilidad en tiempo real.", score: 1 },
+            { text: "Tenemos datos unificados, pero el sistema es rígido para escalar y adaptar nuevos modelos de negocio.", score: 2 },
+            { text: "Operamos con agilidad total. El ERP soporta procesos end-to-end con analítica predictiva en tiempo real.", score: 3 }
         ]
     },
     {
         id: "b2",
-        question: "En cuanto al cumplimiento fiscal e integración B2B (proveedores, clientes), ¿cómo operan?",
+        question: "Ante un cambio rápido exigido por el mercado, ¿qué tan ágil es su respuesta tecnológica?",
         options: [
-            { text: "Dependemos de procesos manuales, correos y portales externos desconectados del sistema contable principal.", score: 1 },
-            { text: "Contamos con automatización parcial. Facturamos electrónicamente, pero el ciclo de compras sigue friccionado.", score: 2 },
-            { text: "E-Suite 100% integrada al Core. Portales de proveedores automatizados y cumplimiento fiscal nativo y transparente.", score: 3 }
+            { text: "Muy lenta. Cualquier cambio al sistema requiere meses, altos costos y detiene la innovación.", score: 1 },
+            { text: "Regular. Compramos plataformas satélite desconectadas para evitar modificar el ERP central.", score: 2 },
+            { text: "Inmediata. Extendemos capacidades en plataformas ágiles (ej. BTP) manteniendo el Core intacto.", score: 3 }
         ]
     },
     {
         id: "b3",
-        question: "¿Cómo aseguran que los procesos de la empresa sean eficientes y no generen sobrecostos?",
+        question: "¿Cómo aseguran la eficiencia de procesos B2B (proveedores, clientes) y el cumplimiento?",
         options: [
-            { text: "Nos basamos en la intuición o reportes forenses de fin de mes cuando ya perdimos margen.", score: 1 },
-            { text: "Hacemos auditorías manuales periódicas y dependemos de TI para identificar cuellos de botella obvios.", score: 2 },
-            { text: "Utilizamos Minería de Procesos (ej. SAP Signavio) para analizar, medir y optimizar el flujo de valor continuamente.", score: 3 }
+            { text: "Dependemos de procesos manuales, facturación fuera del sistema y portales desconectados.", score: 1 },
+            { text: "Contamos con automatización parcial, pero el ciclo de compras y cuentas por pagar reporta fricciones.", score: 2 },
+            { text: "Portales B2B automatizados, E-invoicing nativo y minería de procesos (procesos optimizados).", score: 3 }
         ]
     },
     {
         id: "b4",
-        question: "Cuando el mercado exige un cambio rápido, ¿qué tan rápido responde la arquitectura tecnológica?",
+        question: "¿Cuál es su estrategia de inversión TI y el nivel de aporte de su proveedor actual?",
         options: [
-            { text: "Muy lento. Cualquier cambio requiere meses de rediseño, altos costos e impacta el núcleo del negocio.", score: 1 },
-            { text: "Regular. Compramos herramientas satélites (Shadow IT) para no tocar el ERP, fragmentando la operación.", score: 2 },
-            { text: "Inmediato. Extendemos capacidades en plataformas ágiles (ej. BTP) manteniendo el Core financiero intacto.", score: 3 }
-        ]
-    },
-    {
-        id: "b5",
-        question: "¿Cómo percibe el valor que aporta su partner o proveedor tecnológico principal?",
-        options: [
-            { text: "Es transaccional: implementan algo, cobran y desaparecen, o solo reaccionan cuando el sistema falla (bomberos).", score: 1 },
-            { text: "Es un soporte técnico operativo (Service Desk) limitado a resolver tickets diarios de incidencias.", score: 2 },
-            { text: "Es un Socio Estratégico (Business Advisor) que colabora con nosotros proactivamente para evolucionar el negocio.", score: 3 }
-        ]
-    },
-    {
-        id: "b6",
-        question: "¿Contemplan un presupuesto y estrategia de evolución continua en la Dirección?",
-        options: [
-            { text: "No. Solo gastamos en tecnología cuando es una urgencia crítica o por mandatos fiscales/legales.", score: 1 },
-            { text: "Tenemos un presupuesto reactivo, sabemos que debemos migrar pronto pero no hay un roadmap claro y validado.", score: 2 },
-            { text: "Sí. Invertimos bajo un modelo de innovación continua (Xtended Care) con sesiones trimestrales de alineación TI-Negocio.", score: 3 }
+            { text: "Presupuesto puramente reactivo. Nuestro proveedor es transaccional y solo atiende urgencias.", score: 1 },
+            { text: "Invertimos por necesidad de modernización; el proveedor da soporte técnico tradicional (bolsa de horas).", score: 2 },
+            { text: "Inversión proactiva en innovación. Nuestro proveedor es un Socio Estratégico que impulsa la evolución corporativa.", score: 3 }
         ]
     }
 ];
@@ -62,56 +44,38 @@ const businessQuestions = [
 const technicalQuestions = [
     {
         id: "t1",
-        question: "¿En qué estado se encuentra el 'Core' transaccional de su compañía (su sistema ERP primario)?",
+        question: "¿En qué estado se encuentra el 'Core' transaccional de su compañía (ERP)?",
         options: [
-            { text: "Operamos en SAP ECC u otro sistema legacy; existe mucha personalización (código Z) y alta deuda técnica.", score: 1 },
-            { text: "Estamos migrando o ya en S/4HANA (On-Premise/AnyPremise), pero la arquitectura guarda vicios del pasado.", score: 2 },
-            { text: "Core Transformation completada bajo modelo RISE/GROW (Cloud). La base es estable, extensible y 100% Clean Core.", score: 3 }
+            { text: "Operamos en SAP ECC o legacy; con exceso de personalización (código Z) y alta deuda técnica.", score: 1 },
+            { text: "Migrando o en S/4HANA (On-Premise), pero la arquitectura aún conserva desarrollos invasivos del pasado.", score: 2 },
+            { text: "Core Transformation en Cloud (RISE/GROW). Infraestructura estable y 100% Clean Core.", score: 3 }
         ]
     },
     {
         id: "t2",
-        question: "¿Cómo manejan hoy las integraciones e interoperabilidad con otros sistemas del ecosistema?",
+        question: "¿Cuál es la política arquitectónica cuando el negocio solicita una funcionalidad a la medida?",
         options: [
-            { text: "Punto a punto (Point-to-point) manual, desarrollos a medida complejos que se rompen con cada actualización.", score: 1 },
-            { text: "Usamos middleware básico o APIs expuestas directamente, pero carecemos de un gobierno centralizado.", score: 2 },
-            { text: "Arquitectura basada en eventos usando una plataforma de integración empresarial estándar (ej. SAP Integration Suite).", score: 3 }
+            { text: "Modificamos el código nativo (User Exits/BAdIs), lo cual dificulta y retrasa futuras actualizaciones.", score: 1 },
+            { text: "Desarrollamos soluciones personalizadas (ABAP) pero alojadas en el mismo servidor transaccional.", score: 2 },
+            { text: "Clean Core estricto. Se construye 'Side-by-Side Extensibility' en la plataforma BTP consumiendo APIs públicas.", score: 3 }
         ]
     },
     {
         id: "t3",
-        question: "¿Cómo se aborda el descubrimiento y levantamiento de requerimientos para optimizar procesos?",
+        question: "¿Cómo gobiernan y manejan las integraciones con el resto del ecosistema de aplicaciones?",
         options: [
-            { text: "Los usuarios levantan tickets o piden cambios funcionales en reuniones que terminan en largas actas o diagramas estáticos.", score: 1 },
-            { text: "Usamos herramientas básicas de modelado cruzando datos de sistema cuando nos solicitan un proyecto formal.", score: 2 },
-            { text: "Minería de procesos en sistema y minería de tareas (ej. SAP Signavio) para revelar el flujo real basado en logs de sistema.", score: 3 }
+            { text: "A través de conexiones punto a punto manuales que son inestables y se rompen frecuentemente.", score: 1 },
+            { text: "Usamos middleware básico o exponemos APIs sin un catálogo unificado ni métricas de uso.", score: 2 },
+            { text: "Arquitectura moderna orientada a eventos con una plataforma empresarial estándar (ej. SAP Integration Suite).", score: 3 }
         ]
     },
     {
         id: "t4",
-        question: "¿Cuál es la política arquitectónica cuando el negocio solicita modificar el comportamiento estándar?",
+        question: "¿Qué modelo rige la gestión del ciclo de vida de aplicaciones (ALM) y el soporte?",
         options: [
-            { text: "Modificamos el código nativo o llenamos de 'User Exits / BAdIs' invasivos, dificultando futuros upgrades.", score: 1 },
-            { text: "Tratamos de evitarlo, pero seguimos desarrollando en ABAP clásico dentro del mismo servidor transaccional.", score: 2 },
-            { text: "Clean Core estricto. Desarrollamos 'Side-by-Side Extensibility' en la plataforma BTP consumiendo APIs públicas.", score: 3 }
-        ]
-    },
-    {
-        id: "t5",
-        question: "¿Qué tipo de soporte recibe la operación de TI por parte de su proveedor actual?",
-        options: [
-            { text: "Soporte correctivo bajo demanda. Cada incidencia es un costo adicional e impredecible.", score: 1 },
-            { text: "Un contrato AMS tradicional (bolsa de horas) enfocado en estabilización pero ciego ante mejoras arquitectónicas.", score: 2 },
-            { text: "Servicios Administrados Evolutivos (Xtended Care). TI cuenta con un equipo espejo que asesora en arquitectura y optimización continua.", score: 3 }
-        ]
-    },
-    {
-        id: "t6",
-        question: "¿Cómo gestiona TI el ciclo de vida de aplicaciones (ALM) y el Roadmap de innovación?",
-        options: [
-            { text: "Es manual. Los transportes son un dolor de cabeza, y las actualizaciones (upgrades) son tratadas como proyectos críticos y riesgoso.", score: 1 },
-            { text: "Hay herramientas básicas de ALM para el transporte de componentes, pero el roadmap se dicta por urgencias (top-down).", score: 2 },
-            { text: "Implementación CI/CD robusta, SAP Cloud ALM integrado y pipeline orgánico de innovación alineado trimestralmente (Advisory).", score: 3 }
+            { text: "Operación de alto riesgo en transportes. Soporte correctivo donde cada incidencia genera sobrecostos.", score: 1 },
+            { text: "ALM básico para transportes y un contrato AMS tradicional enfocado únicamente en estabilizar el sistema.", score: 2 },
+            { text: "Pipeline CI/CD (SAP Cloud ALM) alineado a Servicios Administrados Evolutivos (Advisory continuo).", score: 3 }
         ]
     }
 ];

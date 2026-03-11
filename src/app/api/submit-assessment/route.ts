@@ -5,18 +5,18 @@ import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 const resend = new Resend(process.env.RESEND_API_KEY || 're_123456');
 
 function getOrbitLevel(score: number, role: 'business' | 'technical') {
-    if (score <= 8) {
+    if (score <= 6) {
         return {
             level: "Nivel Base",
             orbita: "Órbita 1: Core Transformation",
             desc: role === 'business' 
-                ? "Baja visibilidad financiera y procesos manuales. Se recomienda una transformación centrada en finanzas ágiles y control de presupuesto mediante un Core estable como S/4HANA (RISE/GROW)." 
-                : "La infraestructura guarda deuda técnica y código personalizado que pone en riesgo el cumplimiento y la operatividad. Se requiere estabilizar el Core hacia un modelo Clean Core.",
+                ? "Baja visibilidad financiera y procesos manuales. Se recomienda una transformación centrada en finanzas ágiles y control de presupuesto mediante un Core estable S/4HANA (RISE/GROW)." 
+                : "La infraestructura resguarda deuda técnica y código personalizado que pone en riesgo la operativa. Es imperativo ir hacia un modelo Clean Core para liberar valor.",
             recs: role === 'business' 
                 ? ["Estabilizar la visibilidad del negocio: Migrar hacia un ERP predecible.", "Eliminar la dependencia de reportes en Excel.", "Integrar ciclos Procure-to-Pay y Order-to-Cash al sistema central."]
                 : ["Auditar y eliminar deuda técnica (Código Z).", "Adoptar la práctica Clean Core y Side-by-Side extensibility.", "Implementar metodologías ágiles en lugar del monolito tradicional."]
         };
-    } else if (score <= 13) {
+    } else if (score <= 9) {
         return {
             level: "Nivel Evolutivo",
             orbita: "Órbita 2: Evolución Funcional",
@@ -93,10 +93,10 @@ async function generatePDF(lead: any, score: number, analysis: any, role: 'busin
 
     // The progress bar graphic
     page1.drawRectangle({ x: 60, y: yPos - 70, width: 400, height: 20, color: rgb(0.85, 0.85, 0.85), borderColor: gray, borderWidth: 0.5 });
-    const scoreWidth = (score / 18) * 400;
+    const scoreWidth = (score / 12) * 400;
     page1.drawRectangle({ x: 60, y: yPos - 70, width: scoreWidth, height: 20, color: orange });
 
-    page1.drawText(`${score} / 18 pts`, { x: 470, y: yPos - 65, size: 16, font: fontBold, color: darkBlue });
+    page1.drawText(`${score} / 12 pts`, { x: 470, y: yPos - 65, size: 16, font: fontBold, color: darkBlue });
 
     page1.drawText('Posición actual:', { x: 60, y: yPos - 100, size: 12, font, color: gray });
     page1.drawText(analysis.level.toUpperCase(), { x: 150, y: yPos - 100, size: 14, font: fontBold, color: orange });
@@ -219,7 +219,7 @@ export async function POST(request: Request) {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        text: `*Nuevo Lead Assessment Orbit* 🚀\n*Nombre:* ${lead.name}\n*Empresa:* ${lead.company}\n*Correo:* ${lead.email}\n*Rol:* ${safeRole}\n*Puntuación:* ${score}/18 (${analysis.level})`
+                        text: `*Nuevo Lead Assessment Orbit* 🚀\n*Nombre:* ${lead.name}\n*Empresa:* ${lead.company}\n*Correo:* ${lead.email}\n*Rol:* ${safeRole}\n*Puntuación:* ${score}/12 (${analysis.level})`
                     })
                 });
             } catch (slackError) {
