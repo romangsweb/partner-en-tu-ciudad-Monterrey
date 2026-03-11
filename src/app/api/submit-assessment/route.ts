@@ -4,39 +4,39 @@ import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
 const resend = new Resend(process.env.RESEND_API_KEY || 're_123456');
 
-function getOrbitLevel(score: number) {
+function getOrbitLevel(score: number, role: 'business' | 'technical') {
     if (score <= 8) {
         return {
             level: "Nivel Base",
             orbita: "Órbita 1: Core Transformation",
-            desc: "Su empresa requiere consolidar la plataforma técnica (Migración a S/4HANA o adopción de Clean Core). Existe deuda técnica acumulada que impide el crecimiento. Se recomienda un Digital Genesis Assessment.",
-            recs: [
-                "Estabilizar el Core: Migración hacia S/4HANA (RISE/GROW).",
-                "Adoptar una mentalidad 'Clean Core' para eliminar deuda técnica.",
-                "Implementar metodología ágil orientada a la validación de negocio."
-            ]
+            desc: role === 'business' 
+                ? "Baja visibilidad financiera y procesos manuales. Se recomienda una transformación centrada en finanzas ágiles y control de presupuesto mediante un Core estable como S/4HANA (RISE/GROW)." 
+                : "La infraestructura guarda deuda técnica y código personalizado que pone en riesgo el cumplimiento y la operatividad. Se requiere estabilizar el Core hacia un modelo Clean Core.",
+            recs: role === 'business' 
+                ? ["Estabilizar la visibilidad del negocio: Migrar hacia un ERP predecible.", "Eliminar la dependencia de reportes en Excel.", "Integrar ciclos Procure-to-Pay y Order-to-Cash al sistema central."]
+                : ["Auditar y eliminar deuda técnica (Código Z).", "Adoptar la práctica Clean Core y Side-by-Side extensibility.", "Implementar metodologías ágiles en lugar del monolito tradicional."]
         };
     } else if (score <= 13) {
         return {
             level: "Nivel Evolutivo",
             orbita: "Órbita 2: Evolución Funcional",
-            desc: "Tiene una base estable pero persisten desconexiones o fricción operativa. Es el momento ideal para implementar automatizaciones como E-Suite, Portal Proveedores o Business Data Cloud para tener visibilidad integrada.",
-            recs: [
-                "Automatización B2B: Implementación de E-Suite (Factura-E, Conta-E).",
-                "Digitalizar la cadena de abasto con Portal de Proveedores.",
-                "Minería de procesos: Identificar cuellos de botella mediante SAP Signavio."
-            ]
+            desc: role === 'business' 
+                ? "El ERP principal funciona, pero falta agilidad de mercado y digitalización en la cadena de abasto (B2B). Es momento de optimizar el ciclo de cuentas por pagar/cobrar y automatizar el cumplimiento fiscal."
+                : "La base es estable, pero el gobierno de integraciones y ALM no está del todo automatizado. Se sugiere optimizar el ciclo de vida e integrar plataformas BTP o E-Suite de forma nativa.",
+            recs: role === 'business' 
+                ? ["Digitalizar B2B: Portales de Proveedores automatizados.", "Implementar E-Suite para Facturación y Contabilidad Electrónica sin fricciones.", "Analizar cuellos de botella con Minería de Procesos (Signavio)."]
+                : ["Modernizar la integración con SAP Integration Suite (Event Driven).", "Transicionar AMS correctivo a un modelo evolutivo de optimización.", "Habilitar SAP Cloud ALM para el transporte y monitoreo."]
         };
     } else {
         return {
             level: "Nivel Estratégico",
             orbita: "Órbita 3: Xtended Care Estratégico",
-            desc: "Excelente madurez. Su tecnología está alineada al negocio. El reto ahora es mantener una arquitectura viva con inteligencia (SAP Signavio, BTP) operando bajo un modelo de advisory continuo.",
-            recs: [
-                "Establecer un Gobierno Trimestral estratégico entre TI y Dirección.",
-                "Generar un 'Roadmap Vivo' de evolución tecnológica.",
-                "Transicionar de un soporte transaccional a un modelo de Advisory Continuo (Xtended Care)."
-            ]
+            desc: role === 'business' 
+                ? "Excelente madurez directiva. El ecosistema es un facilitador del modelo de negocio. El enfoque debe migrar al crecimiento predictivo a través de AI, y establecer juntas estratégicas trimestrales de valor (Advisory)."
+                : "Se ha logrado la meta de un ecosistema escalable y Clean Core. El próximo paso es innovar usando BTP, SAP Analytics Cloud y gobernar la evolución bajo un framework de Advisory constante.",
+            recs: role === 'business' 
+                ? ["Aprovechar AI y Analítica Avanzada sobre los datos transaccionales.", "Evolucionar hacia un modelo Predictivo y de Minería de Tareas continua.", "Mantener el alineamiento TI-Negocio con sesiones ejecutivas trimestrales."]
+                : ["Escalar la innovación con SAP Build / Workzone sobre BTP.", "Integrar IA generativa a procesos de usuario final.", "Mantener el ecosistema bajo el framework de servicios Extended Care."]
         };
     }
 }
@@ -60,7 +60,7 @@ async function wrapText(text: string, font: any, size: number, maxWidth: number)
     return lines;
 }
 
-async function generatePDF(lead: any, score: number, analysis: any) {
+async function generatePDF(lead: any, score: number, analysis: any, role: 'business' | 'technical') {
     const pdfDoc = await PDFDocument.create();
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -71,14 +71,16 @@ async function generatePDF(lead: any, score: number, analysis: any) {
     const lightBg = rgb(0.96, 0.97, 0.98);
     const accentLight = rgb(0.9, 0.94, 0.98);
 
-    // --- PAGE 1: Portada y Resumen ---
+    const roleName = role === 'business' ? 'Dirección y Finanzas' : 'Tecnología y Sistemas';
+
+    // --- PAGE 1: Portada y Resumen Ejecutivo ---
     const page1 = pdfDoc.addPage([600, 800]);
     const { width, height } = page1.getSize();
 
     // Header Banner
     page1.drawRectangle({ x: 0, y: height - 120, width, height: 120, color: darkBlue });
     page1.drawText('DIAGNÓSTICO ESTRATÉGICO', { x: 40, y: height - 50, size: 28, font: fontBold, color: rgb(1, 1, 1) });
-    page1.drawText('Business Transformation Orbit', { x: 40, y: height - 80, size: 16, font, color: orange });
+    page1.drawText(`Business Transformation Orbit | Perfil: ${roleName}`, { x: 40, y: height - 80, size: 14, font: fontBold, color: orange });
 
     // Intro Section
     page1.drawText(`Preparado en exclusiva para:`, { x: 40, y: height - 160, size: 12, font, color: gray });
@@ -101,7 +103,7 @@ async function generatePDF(lead: any, score: number, analysis: any) {
 
     // Analysis Box
     yPos -= 160;
-    page1.drawRectangle({ x: 40, y: yPos - 90, width: 520, height: 80, color: accentLight });
+    page1.drawRectangle({ x: 40, y: yPos - 100, width: 520, height: 90, color: accentLight });
     page1.drawText(analysis.orbita, { x: 60, y: yPos - 30, size: 14, font: fontBold, color: darkBlue });
     const descLines = await wrapText(analysis.desc, font, 11, 480);
     let descY = yPos - 50;
@@ -111,8 +113,8 @@ async function generatePDF(lead: any, score: number, analysis: any) {
     });
 
     // Actionable Insights
-    yPos -= 130;
-    page1.drawText('PLAN DE ACCIÓN RECOMENDADO', { x: 40, y: yPos, size: 14, font: fontBold, color: darkBlue });
+    yPos -= 140;
+    page1.drawText(`PLAN DE ACCIÓN - PERSPECTIVA ${role === 'business' ? 'FINANCIERA' : 'TÉCNICA'}`, { x: 40, y: yPos, size: 14, font: fontBold, color: darkBlue });
     page1.drawLine({ start: { x: 40, y: yPos - 5 }, end: { x: 560, y: yPos - 5 }, thickness: 2, color: orange });
     yPos -= 30;
 
@@ -129,17 +131,37 @@ async function generatePDF(lead: any, score: number, analysis: any) {
         yPos = currentRecY - 15;
     }
 
-    // --- PAGE 2: Metodología y CTA ---
+
+    // --- PAGE 2: Reporte Extendido del Perfil ---
     const page2 = pdfDoc.addPage([600, 800]);
 
     page2.drawRectangle({ x: 0, y: height - 80, width, height: 80, color: darkBlue });
-    page2.drawText('HACIA LA EVOLUCIÓN CONTINUA', { x: 40, y: height - 50, size: 18, font: fontBold, color: rgb(1, 1, 1) });
+    page2.drawText('ANÁLISIS DE SU PERFIL EN EL MODELO ORBIT', { x: 40, y: height - 50, size: 18, font: fontBold, color: rgb(1, 1, 1) });
 
     let p2y = height - 120;
+    const profileIntro = role === 'business' 
+        ? "El modelo Business Transformation Orbit revela cómo su infraestructura impacta el rendimiento de su capital y agilidad en el mercado. A nivel Dirección, un bajo alineamiento implica riesgos ocultos, reportes poco confiables y pérdida de competitividad frente a competidores digitalizados. Los resultados de este assessment nos permiten ver que la prioridad de su rol es asegurar el crecimiento, y para ello el ecosistema de negocio debe comportarse como un activo constante, no como un dolor de cabeza mensual."
+        : "El análisis técnico de este assessment se centra en la escalabilidad, deuda técnica y gobernanza bajo el concepto de Clean Core. A nivel arquitectura de sistemas en Monterrey o México, el gran reto es mantener componentes aislados de la lógica central, facilitar la gestión del ciclo de vida (ALM) con un uptime continuo. Como líder de TI, usted comprende que el estancamiento (o las malas personalizaciones) pueden dejar a la empresa ciega frente al cambio del mercado y encadenada a un mantenimiento costoso del ERP.";
+
+    const profileIntroLines = await wrapText(profileIntro, font, 12, 520);
+    for (const line of profileIntroLines) {
+        page2.drawText(line, { x: 40, y: p2y, size: 12, font, color: gray });
+        p2y -= 18;
+    }
+
+    p2y -= 30;
+    
+    // Insert The Advisory Framework explanation specific to Monterrey
+    page2.drawText('EL MODELO DE EVOLUCIÓN PARA MONTERREY', { x: 40, y: p2y, size: 14, font: fontBold, color: darkBlue });
+    page2.drawLine({ start: { x: 40, y: p2y - 5 }, end: { x: 560, y: p2y - 5 }, thickness: 2, color: orange });
+    p2y -= 25;
+
     const frameworkDesc = [
         "En 2027 termina el soporte mainstream para SAP ECC. Una gran parte del midmarket en México sabe esto, pero pocos tienen claro el costo estructurado y la hoja de ruta real de adaptación.",
         "",
         "Cambiar a S/4HANA (Órbita 1) no es suficiente. El valor real está en migrar de un 'Project Mindset' tradicional a un modelo de Advisory Continuo (Órbita 3), impulsado por la digitalización de la cadena B2B (E-Suite) y plataformas de inteligencia (BTP, Signavio).",
+        "",
+        "Para lograrlo, la metodología Xtended Care propuesta por Xamai no enfoca los esfuerzos en un soporte correctivo que se extingue, sino en ser un espejo de su estrategia de negocio, asegurando validaciones de valor continuas, con base técnica sostenible (Clean Core)."
     ];
 
     for (const paragraph of frameworkDesc) {
@@ -147,9 +169,9 @@ async function generatePDF(lead: any, score: number, analysis: any) {
             p2y -= 10;
             continue;
         }
-        const lines = await wrapText(paragraph, font, 12, 520);
+        const lines = await wrapText(paragraph, font, 11, 520);
         for (const line of lines) {
-            page2.drawText(line, { x: 40, y: p2y, size: 12, font, color: gray });
+            page2.drawText(line, { x: 40, y: p2y, size: 11, font, color: gray });
             p2y -= 18;
         }
         p2y -= 10;
@@ -160,7 +182,7 @@ async function generatePDF(lead: any, score: number, analysis: any) {
     page2.drawRectangle({ x: 40, y: p2y - 180, width: 520, height: 160, color: orange, borderColor: darkBlue, borderWidth: 2 });
     page2.drawText('¿Qué sigue ahora?', { x: 230, y: p2y - 40, size: 18, font: fontBold, color: rgb(1, 1, 1) });
 
-    const ctaDesc = "Comprendemos que cada ecosistema es único. Agende una sesión estratégica de 45 minutos (sin costo) con nuestro equipo de Advisory en Monterrey. En esta llamada cruzaremos su puntuación con su arquitectura actual para trazar una hoja de ruta 100% personalizada.";
+    const ctaDesc = `Comprendemos que cada ecosistema es único y los desafíos del perfil de ${roleName} requieren precisión. Agende una sesión estratégica de 45 minutos (sin costo) con nuestro equipo de Advisory en Monterrey. En esta llamada cruzaremos su puntuación con su arquitectura o métricas de negocio para trazar una hoja de ruta 100% personalizada.`;
     const ctaLines = await wrapText(ctaDesc, font, 12, 460);
     let ctaYDesc = p2y - 80;
     for (const line of ctaLines) {
@@ -184,8 +206,11 @@ async function generatePDF(lead: any, score: number, analysis: any) {
 
 export async function POST(request: Request) {
     try {
-        const { lead, answers, score } = await request.json();
-        const analysis = getOrbitLevel(score);
+        const { lead, answers, score, role } = await request.json();
+        
+        // Default to business if somehow role is missing on legacy submissions
+        const safeRole = role || 'business';
+        const analysis = getOrbitLevel(score, safeRole);
 
         // 1. Send Slack Notification
         if (process.env.SLACK_WEBHOOK_URL) {
@@ -194,7 +219,7 @@ export async function POST(request: Request) {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        text: `*Nuevo Lead Assessment Orbit* 🚀\n*Nombre:* ${lead.name}\n*Empresa:* ${lead.company}\n*Correo:* ${lead.email}\n*Puntuación:* ${score}/18 (${analysis.level})`
+                        text: `*Nuevo Lead Assessment Orbit* 🚀\n*Nombre:* ${lead.name}\n*Empresa:* ${lead.company}\n*Correo:* ${lead.email}\n*Rol:* ${safeRole}\n*Puntuación:* ${score}/18 (${analysis.level})`
                     })
                 });
             } catch (slackError) {
@@ -205,7 +230,7 @@ export async function POST(request: Request) {
         // 2. Generate PDF
         let pdfBuffer;
         try {
-            pdfBuffer = await generatePDF(lead, score, analysis);
+            pdfBuffer = await generatePDF(lead, score, analysis, safeRole);
         } catch (pdfError) {
             console.error('PDF Generation Error:', pdfError);
             return NextResponse.json({ error: 'Error al generar el reporte PDF' }, { status: 500 });
@@ -240,7 +265,8 @@ export async function POST(request: Request) {
             }
         }
 
-        return NextResponse.json({ success: true, analysis });
+        const pdfBase64 = pdfBuffer.toString('base64');
+        return NextResponse.json({ success: true, analysis, pdfBase64 });
 
     } catch (error) {
         console.error('Submission Error:', error);

@@ -1,6 +1,6 @@
 .q-container {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 6rem auto 0 auto; /* Added margin-top to clear the fixed header */
     padding: 2.5rem;
     background-color: var(--color-white);
     border-radius: 16px;
@@ -140,5 +140,204 @@
 @media (min-width: 768px) {
     .q-title {
         font-size: 2rem;
+    }
+}
+
+/* --- Results View Evolution --- */
+.results-view {
+    padding: 3rem 2rem;
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+.results-header {
+    margin-bottom: 3rem;
+}
+
+.results-header h2 {
+    font-size: 2.25rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.results-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+}
+
+/* Orbit Graphic Setup */
+.orbit-graphic-container {
+    display: flex;
+    justify-content: center;
+    margin: 3rem 0;
+}
+
+.orbit-graphic {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orbit-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 82, 204, 0.1);
+    transition: all 0.5s ease;
+}
+
+.orbit-outer { width: 100%; height: 100%; border-style: dashed; animation: spin 30s linear infinite; }
+.orbit-middle { width: 70%; height: 70%; border-style: dotted; animation: spin-reverse 20s linear infinite; }
+.orbit-inner { width: 40%; height: 40%; }
+
+.orbit-center {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 82, 204, 0.4);
+    z-index: 10;
+}
+
+.orbit-level-text {
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Highlighting based on their Level */
+.orbit-level-1 .orbit-inner { border-color: var(--color-secondary); border-width: 3px; border-style: solid; box-shadow: 0 0 15px rgba(249, 115, 22, 0.3); }
+.orbit-level-2 .orbit-middle { border-color: var(--color-secondary); border-width: 3px; border-style: solid; box-shadow: 0 0 15px rgba(249, 115, 22, 0.3); animation: none; }
+.orbit-level-3 .orbit-outer { border-color: var(--color-secondary); border-width: 3px; border-style: solid; box-shadow: 0 0 15px rgba(249, 115, 22, 0.3); animation: none; }
+
+/* Analysis Content */
+.results-analysis {
+    background: var(--color-surface-50);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-surface-200);
+    margin-bottom: 3rem;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.results-analysis::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--gradient-accent);
+}
+
+.results-badge {
+    display: inline-block;
+    background: rgba(249, 115, 22, 0.1);
+    color: var(--color-secondary);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.results-orbit-title {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.results-desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-text-main);
+}
+
+/* CTAs */
+.results-actions {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.cta-box {
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.primary-cta {
+    background: var(--color-primary);
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 82, 204, 0.2);
+}
+
+.primary-cta h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.primary-cta p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.secondary-cta {
+    background: var(--color-surface-50);
+    border: 1px solid var(--color-surface-200);
+}
+
+.pulse-animation {
+    animation: pulse-soft 2s infinite;
+}
+
+.mt-2 { margin-top: 0.5rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.text-sm { font-size: 0.875rem; }
+.text-gray-400 { color: #9ca3af; }
+.inline-block { display: inline-block; }
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+@keyframes slideUp { 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+@keyframes pulse-soft {
+    0% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(249, 115, 22, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+}
+
+@media (min-width: 768px) {
+    .results-actions {
+        grid-template-columns: 2fr 1fr;
+    }
+    .primary-cta {
+        align-items: flex-start;
+        text-align: left;
+    }
+    .primary-cta p {
+        margin-left: 0;
     }
 }
